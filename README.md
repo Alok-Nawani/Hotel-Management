@@ -274,3 +274,4 @@ If you encounter any issues or have questions, please open an issue in the repos
 - Added loading states and toast notifications
 - Enhanced security with proper headers and CORS
 - Added comprehensive documentation
+# Hotel-Management2
