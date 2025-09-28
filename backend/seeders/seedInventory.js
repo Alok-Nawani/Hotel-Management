@@ -1,0 +1,485 @@
+const { Inventory } = require('../models');
+
+const inventoryData = [
+  // Furniture
+  {
+    name: 'Dining Table - 4 Seater',
+    category: 'furniture',
+    subcategory: 'Tables',
+    currentStock: 15,
+    minimumStock: 5,
+    maximumStock: 25,
+    unit: 'pieces',
+    unitPrice: 8500,
+    supplier: 'Furniture World',
+    supplierContact: '+919876543300',
+    location: 'Main Dining Area',
+    description: 'Wooden dining table for 4 people',
+    alertEnabled: true
+  },
+  {
+    name: 'Dining Chair',
+    category: 'furniture',
+    subcategory: 'Chairs',
+    currentStock: 60,
+    minimumStock: 20,
+    maximumStock: 80,
+    unit: 'pieces',
+    unitPrice: 2500,
+    supplier: 'Furniture World',
+    supplierContact: '+919876543300',
+    location: 'Main Dining Area',
+    description: 'Comfortable wooden dining chair',
+    alertEnabled: true
+  },
+  {
+    name: 'Bar Stool',
+    category: 'furniture',
+    subcategory: 'Stools',
+    currentStock: 8,
+    minimumStock: 4,
+    maximumStock: 12,
+    unit: 'pieces',
+    unitPrice: 3200,
+    supplier: 'Modern Furniture Co.',
+    supplierContact: '+919876543301',
+    location: 'Bar Area',
+    description: 'High bar stool for bar counter',
+    alertEnabled: true
+  },
+
+  // Kitchen Equipment
+  {
+    name: 'Commercial Gas Stove',
+    category: 'kitchen_equipment',
+    subcategory: 'Cooking Equipment',
+    currentStock: 3,
+    minimumStock: 2,
+    maximumStock: 5,
+    unit: 'pieces',
+    unitPrice: 25000,
+    supplier: 'Kitchen Solutions',
+    supplierContact: '+919876543302',
+    location: 'Kitchen',
+    description: '4-burner commercial gas stove',
+    alertEnabled: true
+  },
+  {
+    name: 'Tandoor Oven',
+    category: 'kitchen_equipment',
+    subcategory: 'Cooking Equipment',
+    currentStock: 2,
+    minimumStock: 1,
+    maximumStock: 3,
+    unit: 'pieces',
+    unitPrice: 45000,
+    supplier: 'Kitchen Solutions',
+    supplierContact: '+919876543302',
+    location: 'Kitchen',
+    description: 'Traditional clay tandoor oven',
+    alertEnabled: true
+  },
+  {
+    name: 'Refrigerator - Commercial',
+    category: 'kitchen_equipment',
+    subcategory: 'Storage Equipment',
+    currentStock: 2,
+    minimumStock: 1,
+    maximumStock: 3,
+    unit: 'pieces',
+    unitPrice: 35000,
+    supplier: 'Cooling Systems Ltd',
+    supplierContact: '+919876543303',
+    location: 'Kitchen',
+    description: 'Large commercial refrigerator',
+    alertEnabled: true
+  },
+  {
+    name: 'Deep Freezer',
+    category: 'kitchen_equipment',
+    subcategory: 'Storage Equipment',
+    currentStock: 1,
+    minimumStock: 1,
+    maximumStock: 2,
+    unit: 'pieces',
+    unitPrice: 28000,
+    supplier: 'Cooling Systems Ltd',
+    supplierContact: '+919876543303',
+    location: 'Kitchen',
+    description: 'Commercial deep freezer for frozen items',
+    alertEnabled: true
+  },
+
+  // Food Supplies
+  {
+    name: 'Basmati Rice',
+    category: 'food_supplies',
+    subcategory: 'Grains',
+    currentStock: 25,
+    minimumStock: 10,
+    maximumStock: 50,
+    unit: 'kg',
+    unitPrice: 180,
+    supplier: 'Grain Suppliers',
+    supplierContact: '+919876543304',
+    location: 'Storage Room',
+    description: 'Premium basmati rice',
+    alertEnabled: true
+  },
+  {
+    name: 'Cooking Oil',
+    category: 'food_supplies',
+    subcategory: 'Cooking Ingredients',
+    currentStock: 15,
+    minimumStock: 5,
+    maximumStock: 30,
+    unit: 'liters',
+    unitPrice: 120,
+    supplier: 'Oil Distributors',
+    supplierContact: '+919876543305',
+    location: 'Storage Room',
+    description: 'Sunflower cooking oil',
+    alertEnabled: true
+  },
+  {
+    name: 'Onions',
+    category: 'food_supplies',
+    subcategory: 'Vegetables',
+    currentStock: 8,
+    minimumStock: 5,
+    maximumStock: 20,
+    unit: 'kg',
+    unitPrice: 25,
+    supplier: 'Fresh Vegetables Co.',
+    supplierContact: '+919876543306',
+    location: 'Cold Storage',
+    description: 'Fresh onions',
+    alertEnabled: true
+  },
+  {
+    name: 'Tomatoes',
+    category: 'food_supplies',
+    subcategory: 'Vegetables',
+    currentStock: 6,
+    minimumStock: 3,
+    maximumStock: 15,
+    unit: 'kg',
+    unitPrice: 40,
+    supplier: 'Fresh Vegetables Co.',
+    supplierContact: '+919876543306',
+    location: 'Cold Storage',
+    description: 'Fresh tomatoes',
+    alertEnabled: true
+  },
+  {
+    name: 'Chicken',
+    category: 'food_supplies',
+    subcategory: 'Meat',
+    currentStock: 12,
+    minimumStock: 5,
+    maximumStock: 25,
+    unit: 'kg',
+    unitPrice: 200,
+    supplier: 'Fresh Meat Suppliers',
+    supplierContact: '+919876543307',
+    location: 'Cold Storage',
+    description: 'Fresh chicken',
+    alertEnabled: true
+  },
+  {
+    name: 'Paneer',
+    category: 'food_supplies',
+    subcategory: 'Dairy',
+    currentStock: 4,
+    minimumStock: 2,
+    maximumStock: 10,
+    unit: 'kg',
+    unitPrice: 300,
+    supplier: 'Dairy Products Ltd',
+    supplierContact: '+919876543308',
+    location: 'Cold Storage',
+    description: 'Fresh cottage cheese',
+    alertEnabled: true
+  },
+
+  // Cleaning Supplies
+  {
+    name: 'Dishwashing Liquid',
+    category: 'cleaning_supplies',
+    subcategory: 'Kitchen Cleaning',
+    currentStock: 8,
+    minimumStock: 3,
+    maximumStock: 15,
+    unit: 'bottles',
+    unitPrice: 120,
+    supplier: 'Cleaning Solutions',
+    supplierContact: '+919876543309',
+    location: 'Storage Room',
+    description: 'Commercial dishwashing liquid',
+    alertEnabled: true
+  },
+  {
+    name: 'Floor Cleaner',
+    category: 'cleaning_supplies',
+    subcategory: 'Floor Cleaning',
+    currentStock: 5,
+    minimumStock: 2,
+    maximumStock: 10,
+    unit: 'bottles',
+    unitPrice: 180,
+    supplier: 'Cleaning Solutions',
+    supplierContact: '+919876543309',
+    location: 'Storage Room',
+    description: 'Commercial floor cleaner',
+    alertEnabled: true
+  },
+  {
+    name: 'Sanitizer',
+    category: 'cleaning_supplies',
+    subcategory: 'Sanitization',
+    currentStock: 3,
+    minimumStock: 2,
+    maximumStock: 8,
+    unit: 'bottles',
+    unitPrice: 250,
+    supplier: 'Cleaning Solutions',
+    supplierContact: '+919876543309',
+    location: 'Storage Room',
+    description: 'Hand sanitizer for staff',
+    alertEnabled: true
+  },
+  {
+    name: 'Paper Towels',
+    category: 'cleaning_supplies',
+    subcategory: 'Paper Products',
+    currentStock: 12,
+    minimumStock: 5,
+    maximumStock: 25,
+    unit: 'rolls',
+    unitPrice: 45,
+    supplier: 'Paper Products Co.',
+    supplierContact: '+919876543310',
+    location: 'Storage Room',
+    description: 'Commercial paper towels',
+    alertEnabled: true
+  },
+
+  // Utensils
+  {
+    name: 'Steel Plates',
+    category: 'utensils',
+    subcategory: 'Dining Utensils',
+    currentStock: 50,
+    minimumStock: 20,
+    maximumStock: 100,
+    unit: 'pieces',
+    unitPrice: 150,
+    supplier: 'Utensil Suppliers',
+    supplierContact: '+919876543311',
+    location: 'Kitchen',
+    description: 'Stainless steel dinner plates',
+    alertEnabled: true
+  },
+  {
+    name: 'Steel Glasses',
+    category: 'utensils',
+    subcategory: 'Dining Utensils',
+    currentStock: 40,
+    minimumStock: 15,
+    maximumStock: 80,
+    unit: 'pieces',
+    unitPrice: 80,
+    supplier: 'Utensil Suppliers',
+    supplierContact: '+919876543311',
+    location: 'Kitchen',
+    description: 'Stainless steel water glasses',
+    alertEnabled: true
+  },
+  {
+    name: 'Serving Spoons',
+    category: 'utensils',
+    subcategory: 'Kitchen Utensils',
+    currentStock: 15,
+    minimumStock: 5,
+    maximumStock: 30,
+    unit: 'pieces',
+    unitPrice: 120,
+    supplier: 'Utensil Suppliers',
+    supplierContact: '+919876543311',
+    location: 'Kitchen',
+    description: 'Large serving spoons',
+    alertEnabled: true
+  },
+  {
+    name: 'Knife Set',
+    category: 'utensils',
+    subcategory: 'Kitchen Utensils',
+    currentStock: 3,
+    minimumStock: 2,
+    maximumStock: 6,
+    unit: 'sets',
+    unitPrice: 2500,
+    supplier: 'Kitchen Tools Co.',
+    supplierContact: '+919876543312',
+    location: 'Kitchen',
+    description: 'Professional knife set',
+    alertEnabled: true
+  },
+
+  // Electronics
+  {
+    name: 'POS Terminal',
+    category: 'electronics',
+    subcategory: 'Point of Sale',
+    currentStock: 2,
+    minimumStock: 1,
+    maximumStock: 3,
+    unit: 'pieces',
+    unitPrice: 15000,
+    supplier: 'Tech Solutions',
+    supplierContact: '+919876543313',
+    location: 'Cash Counter',
+    description: 'Point of sale terminal',
+    alertEnabled: true
+  },
+  {
+    name: 'CCTV Camera',
+    category: 'electronics',
+    subcategory: 'Security',
+    currentStock: 4,
+    minimumStock: 2,
+    maximumStock: 8,
+    unit: 'pieces',
+    unitPrice: 8000,
+    supplier: 'Security Systems',
+    supplierContact: '+919876543314',
+    location: 'Restaurant',
+    description: 'Security surveillance camera',
+    alertEnabled: true
+  },
+  {
+    name: 'Music System',
+    category: 'electronics',
+    subcategory: 'Audio',
+    currentStock: 1,
+    minimumStock: 1,
+    maximumStock: 2,
+    unit: 'pieces',
+    unitPrice: 12000,
+    supplier: 'Audio Solutions',
+    supplierContact: '+919876543315',
+    location: 'Dining Area',
+    description: 'Background music system',
+    alertEnabled: true
+  },
+
+  // Decorations
+  {
+    name: 'Table Cloths',
+    category: 'decorations',
+    subcategory: 'Table Decor',
+    currentStock: 20,
+    minimumStock: 10,
+    maximumStock: 40,
+    unit: 'pieces',
+    unitPrice: 300,
+    supplier: 'Decor Suppliers',
+    supplierContact: '+919876543316',
+    location: 'Storage Room',
+    description: 'White table cloths',
+    alertEnabled: true
+  },
+  {
+    name: 'Flower Vases',
+    category: 'decorations',
+    subcategory: 'Table Decor',
+    currentStock: 8,
+    minimumStock: 4,
+    maximumStock: 15,
+    unit: 'pieces',
+    unitPrice: 500,
+    supplier: 'Decor Suppliers',
+    supplierContact: '+919876543316',
+    location: 'Dining Area',
+    description: 'Decorative flower vases',
+    alertEnabled: true
+  },
+  {
+    name: 'Wall Art',
+    category: 'decorations',
+    subcategory: 'Wall Decor',
+    currentStock: 5,
+    minimumStock: 2,
+    maximumStock: 10,
+    unit: 'pieces',
+    unitPrice: 1200,
+    supplier: 'Art Gallery',
+    supplierContact: '+919876543317',
+    location: 'Dining Area',
+    description: 'Decorative wall paintings',
+    alertEnabled: true
+  },
+
+  // Maintenance
+  {
+    name: 'Light Bulbs',
+    category: 'maintenance',
+    subcategory: 'Electrical',
+    currentStock: 15,
+    minimumStock: 5,
+    maximumStock: 30,
+    unit: 'pieces',
+    unitPrice: 80,
+    supplier: 'Electrical Supplies',
+    supplierContact: '+919876543318',
+    location: 'Storage Room',
+    description: 'LED light bulbs',
+    alertEnabled: true
+  },
+  {
+    name: 'Fuse Box',
+    category: 'maintenance',
+    subcategory: 'Electrical',
+    currentStock: 2,
+    minimumStock: 1,
+    maximumStock: 4,
+    unit: 'pieces',
+    unitPrice: 1500,
+    supplier: 'Electrical Supplies',
+    supplierContact: '+919876543318',
+    location: 'Electrical Room',
+    description: 'Electrical fuse box',
+    alertEnabled: true
+  },
+  {
+    name: 'Water Filter',
+    category: 'maintenance',
+    subcategory: 'Plumbing',
+    currentStock: 1,
+    minimumStock: 1,
+    maximumStock: 2,
+    unit: 'pieces',
+    unitPrice: 5000,
+    supplier: 'Water Solutions',
+    supplierContact: '+919876543319',
+    location: 'Kitchen',
+    description: 'Water purification filter',
+    alertEnabled: true
+  }
+];
+
+async function seedInventory() {
+  try {
+    console.log('Seeding inventory data...');
+    
+    for (const item of inventoryData) {
+      await Inventory.create(item);
+    }
+    
+    console.log(`✅ Seeded ${inventoryData.length} inventory items successfully!`);
+  } catch (error) {
+    console.error('❌ Error seeding inventory:', error);
+  }
+}
+
+module.exports = { seedInventory };
